@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:workers": "vite build && wrangler deploy --temporary",
+    "deploy:pages": "vite build --base=/unicard-demo/ && cp dist/index.html dist/404.html && cd dist && git init -b gh-pages -q && git add -A && git commit -q -m \"deploy pages\" && git -c credential.helper= -c credential.helper=\"!gh auth git-credential\" push -f https://github.com/ChaunnyX/unicard-demo.git gh-pages && rm -rf .git"
   },
   "dependencies": {
     "@fontsource-variable/onest": "^5.3.0",
