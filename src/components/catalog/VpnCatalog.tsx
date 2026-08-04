@@ -6,8 +6,6 @@ import { useBuy } from '../../lib/useBuy'
 import { CountUp, Crumbs, Reveal } from '../ui'
 import WowMap from '../WowMap'
 
-const PROTOCOLS = ['VLESS + Reality', 'WireGuard', 'Hysteria2', 'Trojan']
-
 /** VPN: тёмный каталог-лендинг со своей инфраструктурой как главным аргументом */
 export default function VpnCatalog() {
   const plans = productsByCat('vpn')
@@ -31,7 +29,7 @@ export default function VpnCatalog() {
               </h1>
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-white/70">
                 Вход через российский сервер, который проходит фильтры мобильных операторов,
-                выход — в Европе. Четыре протокола: если один заблокируют, остальные продолжают работать.
+                выход — в Европе. Четыре способа подключения дублируют друг друга: если один перестанет проходить, приложение переключится само.
               </p>
               <div className="mt-6 grid max-w-md grid-cols-3 gap-4">
                 <div>
@@ -47,13 +45,12 @@ export default function VpnCatalog() {
                 </div>
                 <div>
                   <div className="font-display text-[30px] font-bold num">4</div>
-                  <div className="text-[11.5px] leading-snug text-white/45">протокола в одной подписке</div>
+                  <div className="text-[11.5px] leading-snug text-white/45">способа подключения в одной подписке</div>
                 </div>
               </div>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {PROTOCOLS.map(p => (
-                  <span key={p} className="rounded-full border border-white/15 px-3 py-1.5 font-mono text-[11.5px] text-white/75">{p}</span>
-                ))}
+              <div className="mt-6 flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-[13px] text-white/70">
+                <RefreshCcw className="h-4 w-4 shrink-0 text-pulse" />
+                Какие именно технологии внутри — не публикуем: чем меньше о них знают фильтры, тем дольше всё работает.
               </div>
             </div>
             <div>

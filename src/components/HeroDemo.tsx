@@ -18,7 +18,7 @@ interface DemoItem {
 const ITEMS: DemoItem[] = [
   { cat: 'gift', title: 'Steam Gift Card', sub: 'Россия · 1 000 ₽', price: 1090, code: '7XK4F-9B2ND-QW8RT', sec: '1,8' },
   { cat: 'esim', title: 'eSIM Турция', sub: '5 ГБ · 30 дней', price: 1090, code: 'LPA:1$rsp.unicard.app$TR-8F2K1', qr: true, sec: '3,2' },
-  { cat: 'vpn', title: 'Unicard VPN', sub: 'Базовый · 1 месяц', price: 299, code: 'vless://a3f9c2e1@ru1.unicard.app:443#Unicard', qr: true, sec: '0,9' },
+  { cat: 'vpn', title: 'Unicard VPN', sub: 'Базовый · 1 месяц', price: 299, code: 'https://sub.unicard.app/u/a3f9c2e1d7', qr: true, sec: '0,9' },
 ]
 
 type Phase = 'idle' | 'paying' | 'pipeline' | 'typing' | 'done'

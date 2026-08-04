@@ -98,6 +98,10 @@ export default function TopUp() {
           <p className="mt-3 text-center text-[12px] text-muted">
             {methodMeta.id === 'crypto' ? 'Курс фиксируется на 15 минут, зачисление после 1 подтверждения сети.' : 'Демо: оплата имитируется, деньги никуда не уходят.'}
           </p>
+          <p className="mt-1.5 text-center text-[11.5px] text-muted">
+            Нажимая «Пополнить», вы принимаете <Link to="/legal/offer" className="text-volt hover:underline">оферту</Link> и{' '}
+            <Link to="/legal/privacy" className="text-volt hover:underline">политику конфиденциальности</Link>
+          </p>
         </div>
       ) : (
         <div className="panel mt-5 p-8 text-center" style={{ animation: 'rise 350ms cubic-bezier(0.2,0,0,1)' }}>

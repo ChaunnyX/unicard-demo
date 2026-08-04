@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Send, Zap, ShieldCheck, Wallet } from 'lucide-react'
 import { useStore } from '../lib/store'
 import { Modal } from './ui'
@@ -21,7 +22,14 @@ export default function AuthModal() {
         Войти по e-mail
       </button>
 
-      <div className="mt-6 space-y-2.5 border-t border-line pt-5">
+      <p className="mt-3 text-center text-[11.5px] leading-relaxed text-muted">
+        Входя, вы принимаете{' '}
+        <Link to="/legal/offer" onClick={() => setAuthOpen(false)} className="text-volt hover:underline">пользовательское соглашение</Link>
+        {' '}и{' '}
+        <Link to="/legal/privacy" onClick={() => setAuthOpen(false)} className="text-volt hover:underline">политику конфиденциальности</Link>
+      </p>
+
+      <div className="mt-5 space-y-2.5 border-t border-line pt-5">
         {[
           { icon: Wallet, text: 'Единый баланс: пополнил один раз — покупаешь всё' },
           { icon: Zap, text: 'Заказы и коды хранятся в кабинете' },

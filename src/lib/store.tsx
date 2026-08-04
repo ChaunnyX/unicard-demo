@@ -96,7 +96,7 @@ const seedState = (): State => {
       {
         id: 'sub-vpn-1', type: 'vpn', title: 'Unicard VPN Базовый', plan: '1 месяц', devices: 3,
         startedTs: now - 7 * day, expiresTs: now + 23 * day,
-        key: 'vless://a3f9c2e1-demo@ru1.unicard.app:443?security=reality#Unicard',
+        key: 'https://sub.unicard.app/u/a3f9c2e1-demo',
       },
     ],
     cards: [],
@@ -164,7 +164,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           id: 'sub-' + order.id, type: 'vpn', title: p.title, plan: v.label,
           devices: p.id === 'vpn-family' ? 7 : 3,
           startedTs: Date.now(), expiresTs: Date.now() + months * 30 * day,
-          key: `vless://${genCode(1, 8).toLowerCase()}-demo@ru1.unicard.app:443?security=reality#Unicard`,
+          key: `https://sub.unicard.app/u/${genCode(1, 8).toLowerCase()}-demo`,
         }, ...s.subs]
       }
       if (p.cat === 'proxy' && (v.id === '1w' || v.id === '1m')) {

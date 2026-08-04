@@ -3,11 +3,13 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import AuthModal from './components/AuthModal'
+import CookieNotice from './components/CookieNotice'
 import { Toasts } from './components/ui'
 import Home from './pages/Home'
 import Catalog from './pages/Catalog'
 import ProductPage from './pages/Product'
 import OrderPage from './pages/Order'
+import Legal from './pages/Legal'
 import AccountLayout from './pages/account/Layout'
 import Dashboard from './pages/account/Dashboard'
 import TopUp from './pages/account/TopUp'
@@ -40,6 +42,7 @@ export default function App() {
         <Route path="/c/:cat" element={<Catalog />} />
         <Route path="/p/:id" element={<ProductPage />} />
         <Route path="/order/:id" element={<OrderPage />} />
+        <Route path="/legal/:doc?" element={<Legal />} />
         <Route path="/account" element={<AccountLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="topup" element={<TopUp />} />
@@ -58,6 +61,7 @@ export default function App() {
         <Route path="*" element={<Home />} />
       </Routes>
       {!isAdmin && <Footer />}
+      {!isAdmin && <CookieNotice />}
       <AuthModal />
       <Toasts />
     </>

@@ -47,7 +47,9 @@ export default function Footer() {
               <li><Link to="/account/topup" className="transition-colors hover:text-white">Пополнение баланса</Link></li>
               <li><Link to="/#how" className="transition-colors hover:text-white">Как работает выдача</Link></li>
               <li><Link to="/#faq" className="transition-colors hover:text-white">Частые вопросы</Link></li>
-              <li><span className="cursor-pointer transition-colors hover:text-white">Оферта и конфиденциальность</span></li>
+              <li><Link to="/legal/offer" className="transition-colors hover:text-white">Пользовательское соглашение</Link></li>
+              <li><Link to="/legal/refund" className="transition-colors hover:text-white">Возвраты и отмены</Link></li>
+              <li><Link to="/legal/privacy" className="transition-colors hover:text-white">Конфиденциальность</Link></li>
             </ul>
           </div>
 
