@@ -36,10 +36,10 @@ export default function VpnCatalog() {
               <div className="mt-6 grid max-w-md grid-cols-3 gap-4">
                 <div>
                   <div className="flex items-baseline gap-1">
-                    <span className="font-display text-[30px] font-bold num"><CountUp value={185} duration={1500} /></span>
-                    <span className="text-[12px] text-white/50">Мбит/с</span>
+                    <span className="font-display text-[30px] font-bold num">до <CountUp value={1} duration={800} /></span>
+                    <span className="text-[12px] text-white/50">Гбит/с</span>
                   </div>
-                  <div className="text-[11.5px] leading-snug text-white/45">замер на мобильной сети, август 2026</div>
+                  <div className="text-[11.5px] leading-snug text-white/45">порт каждого сервера — хватает на десятки 4K-стримов</div>
                 </div>
                 <div>
                   <div className="font-display text-[30px] font-bold num">99,9%</div>
