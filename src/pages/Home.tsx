@@ -10,6 +10,8 @@ import { useBuy } from '../lib/useBuy'
 import LiveFeed from '../components/LiveFeed'
 import ProductCard from '../components/ProductCard'
 import WowMap from '../components/WowMap'
+import BankCard from '../components/BankCard'
+import { asset } from '../lib/asset'
 import { CatIcon, CountUp, Reveal, SectionHead } from '../components/ui'
 
 /* ================= HERO ================= */
@@ -24,20 +26,21 @@ function Hero() {
           style={{ background: 'radial-gradient(closest-side, rgba(0,198,255,0.14), transparent)' }} />
       </div>
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 pb-14 pt-10 md:grid-cols-[1.1fr_0.9fr] md:px-6 md:pt-16 grid-cols-1">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 pb-14 pt-10 md:px-6 md:pt-16 grid-cols-1 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
           <div className="eyebrow mb-4 flex items-center gap-2 !text-volt">
             <Zap className="h-3.5 w-3.5" fill="currentColor" strokeWidth={0} />
-            маркетплейс цифровых товаров
+            8 направлений · один баланс
           </div>
-          <h1 className="font-display text-[38px] font-bold leading-[1.05] tracking-tight md:text-[56px]">
-            Оплатил — получил.
+          <h1 className="font-display text-[36px] font-bold leading-[1.06] tracking-tight md:text-[52px]">
+            Ключи, eSIM, VPN и&nbsp;карты —
             <br />
-            <span className="grad-text">За секунды.</span>
+            <span className="grad-text">выдача за 2 секунды</span>
           </h1>
           <p className="mt-5 max-w-md text-[16px] leading-relaxed text-muted md:text-[17px]">
-            Gift-карты, игры, eSIM, VPN и прокси — код приходит в кабинет сразу после
-            оплаты. Один баланс на всё: пополнил раз, дальше без ввода карты.
+            Платите с единого баланса — без корзин и повторного ввода карты. Товар
+            покупается у поставщика в момент заказа, а если тот не ответил —
+            деньги сами вернутся на баланс.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <Link to="/c/gift" className="btn-primary px-7 py-3.5 text-[15px]">
@@ -55,11 +58,35 @@ function Hero() {
           </div>
         </div>
 
+        {/* сцена: живой фид + реальные объекты продукта вокруг */}
         <Reveal delay={150}>
-          <LiveFeed />
-          <p className="mt-3 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-            реальное время выдачи по категориям
-          </p>
+          <div className="relative lg:mx-2">
+            {/* карта Unicard выглядывает из-за терминала */}
+            <div className="pointer-events-none absolute -right-4 -top-14 z-0 w-60 rotate-[8deg] max-lg:hidden"
+              style={{ animation: 'float-y 7s ease-in-out infinite' }}>
+              <BankCard tilt={false} />
+            </div>
+            <LiveFeed className="relative z-10" />
+            {/* обложка игры */}
+            <div className="absolute -bottom-9 -left-7 z-20 w-44 -rotate-6 overflow-hidden rounded-xl shadow-lift ring-4 ring-white max-lg:hidden"
+              style={{ animation: 'float-y 8s ease-in-out infinite', animationDelay: '1.2s' }}>
+              <img src={asset('/img/games/eldenring.jpg')} alt="ELDEN RING" className="block w-full" />
+              <span className="absolute bottom-1.5 left-2 rounded-full bg-ink/75 px-2 py-0.5 font-mono text-[10px] font-medium text-white backdrop-blur">
+                ключ · 3 299 ₽
+              </span>
+            </div>
+            {/* eSIM-чип */}
+            <div className="absolute -left-6 -top-9 z-20 flex -rotate-3 items-center gap-2 rounded-full bg-surface py-2 pl-2.5 pr-4 shadow-lift max-lg:hidden"
+              style={{ animation: 'float-y 6s ease-in-out infinite', animationDelay: '0.5s' }}>
+              <img src={asset('/img/flags/tr.svg')} alt="" className="h-5 w-7 rounded object-cover" />
+              <span className="text-[12.5px] font-semibold leading-tight">eSIM Турция<br />
+                <span className="font-mono text-[10.5px] font-medium text-ok">QR за минуту · от 399 ₽</span>
+              </span>
+            </div>
+            <p className="mt-4 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-muted lg:pl-40">
+              реальное время выдачи по категориям
+            </p>
+          </div>
         </Reveal>
       </div>
     </section>

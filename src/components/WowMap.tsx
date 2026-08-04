@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import mapData from '../data/mapPins.json'
 import { asset } from '../lib/asset'
@@ -11,7 +12,9 @@ export interface MapArc { from: string; to: string; color?: string }
  * Точечная карта мира с пинами и анимированными дугами.
  * Подложка — сгенерированный dotted-map SVG, поверх — свой SVG в тех же координатах.
  */
-export default function WowMap({
+/* memo: подложка тяжёлая (тысячи точек + SMIL-пульсы) — не должна
+   перерисовываться из-за чужих state-изменений на странице */
+export default memo(function WowMap({
   mapPins = [], arcs = [], className = '', dark = false, children,
 }: { mapPins?: MapPin[]; arcs?: MapArc[]; className?: string; dark?: boolean; children?: ReactNode }) {
   return (
@@ -66,6 +69,6 @@ export default function WowMap({
       {children}
     </div>
   )
-}
+})
 
 export const hasPin = (key: string) => key in pins

@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Search, Zap, Smartphone, QrCode, Wifi } from 'lucide-react'
 import { productsByCat, minPrice } from '../../data/products'
+import type { Product } from '../../data/products'
 import { rub } from '../../lib/format'
 import { Crumbs, Rating, Reveal } from '../ui'
 import WowMap from '../WowMap'
@@ -9,20 +10,75 @@ import mapData from '../../data/mapPins.json'
 
 const { viewBox, pins } = mapData as { viewBox: string; pins: Record<string, { x: number; y: number }> }
 
+/**
+ * Карта изолирована в memo-компонент со СВОИМ hover-состоянием:
+ * наведение не перерисовывает страницу, а тяжёлая подложка WowMap
+ * (SMIL-пульсы пинов) вообще не ре-рендерится — иначе дёргается скролл.
+ */
+const EsimMap = memo(function EsimMap({ all }: { all: Product[] }) {
+  const [hover, setHover] = useState<string | null>(null)
+  const nav = useNavigate()
+
+  const mappable = useMemo(() => all.filter(p => p.mapKey && p.mapKey in pins), [all])
+  const staticPins = useMemo(() => mappable.map(p => ({ key: p.mapKey!, color: '#2E5BFF' })), [mappable])
+
+  const hovered = hover ? mappable.find(p => p.mapKey === hover) : undefined
+  const hc = hovered ? pins[hovered.mapKey!] : undefined
+  const [, , vw, vh] = useMemo(() => viewBox.split(' ').map(Number), [])
+
+  return (
+    <div className="panel relative overflow-hidden p-4 md:p-6">
+      <div className="relative mx-auto max-w-4xl">
+        <WowMap mapPins={staticPins} />
+        {/* лёгкий слой: подсветка + хит-зоны; hover живёт только здесь */}
+        <svg viewBox={viewBox} className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet">
+          {hc && (
+            <g pointerEvents="none">
+              <circle cx={hc.x} cy={hc.y} r={2.4} fill="#00C6FF" opacity={0.28} />
+              <circle cx={hc.x} cy={hc.y} r={1.15} fill="#00C6FF" stroke="#fff" strokeWidth={0.3} />
+            </g>
+          )}
+          {mappable.map(p => {
+            const c = pins[p.mapKey!]
+            return (
+              <circle
+                key={p.id} cx={c.x} cy={c.y} r={2.2} fill="transparent" className="cursor-pointer"
+                onMouseEnter={() => setHover(p.mapKey!)} onMouseLeave={() => setHover(null)}
+                onClick={() => nav(`/p/${p.id}`)}
+              />
+            )
+          })}
+        </svg>
+        {hovered && hc && (
+          <div
+            className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full rounded-xl bg-ink px-3.5 py-2 text-white shadow-lift"
+            style={{ left: `${(hc.x / vw) * 100}%`, top: `${(hc.y / vh) * 100}%`, marginTop: '-8px', animation: 'feed-in 150ms ease-out' }}
+          >
+            <div className="flex items-center gap-2 whitespace-nowrap text-[13px] font-semibold">
+              <img src={hovered.flag} alt="" className="h-3.5 w-5 rounded-[3px] object-cover" />
+              {hovered.title.replace('eSIM ', '')}
+            </div>
+            <div className="num whitespace-nowrap text-[12px] text-pulse">от {rub(minPrice(hovered))} · {hovered.variants.length} пакета</div>
+          </div>
+        )}
+      </div>
+      <p className="mt-2 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-muted max-md:hidden">
+        наведите на точку · клик — к пакетам страны
+      </p>
+    </div>
+  )
+})
+
 /** eSIM: интерактивная карта мира — ткни в страну, увидишь цену */
 export default function EsimCatalog() {
   const all = useMemo(() => productsByCat('esim'), [])
   const [q, setQ] = useState('')
-  const [hover, setHover] = useState<string | null>(null)
-  const nav = useNavigate()
 
   const list = useMemo(() => {
     const s = q.trim().toLowerCase()
     if (!s) return all
     return all.filter(p => p.title.toLowerCase().includes(s) || (p.subtitle ?? '').toLowerCase().includes(s))
   }, [all, q])
-
-  const hovered = hover ? all.find(p => p.mapKey === hover) : null
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
@@ -45,50 +101,9 @@ export default function EsimCatalog() {
         </div>
       </div>
 
-      {/* интерактивная карта */}
+      {/* интерактивная карта (изолирована от остальной страницы) */}
       <Reveal className="mt-8">
-        <div className="panel relative overflow-hidden p-4 md:p-6">
-          <div className="relative mx-auto max-w-4xl">
-            <WowMap mapPins={all.filter(p => p.mapKey && p.mapKey in pins).map(p => ({
-              key: p.mapKey!,
-              color: hover === p.mapKey ? '#00C6FF' : '#2E5BFF',
-              big: hover === p.mapKey,
-            }))} />
-            {/* невидимые кликабельные зоны поверх пинов */}
-            <svg viewBox={viewBox} className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet">
-              {all.filter(p => p.mapKey && p.mapKey in pins).map(p => {
-                const c = pins[p.mapKey!]
-                return (
-                  <circle
-                    key={p.id} cx={c.x} cy={c.y} r={3.2} fill="transparent" className="cursor-pointer"
-                    onMouseEnter={() => setHover(p.mapKey!)} onMouseLeave={() => setHover(null)}
-                    onClick={() => nav(`/p/${p.id}`)}
-                  />
-                )
-              })}
-            </svg>
-            {/* тултип поверх карты */}
-            {hovered && (() => {
-              const c = pins[hovered.mapKey!]
-              const [, , w, h] = viewBox.split(' ').map(Number)
-              return (
-                <div
-                  className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full rounded-xl bg-ink px-3.5 py-2 text-white shadow-lift"
-                  style={{ left: `${(c.x / w) * 100}%`, top: `${(c.y / h) * 100}%`, marginTop: '-8px', animation: 'feed-in 150ms ease-out' }}
-                >
-                  <div className="flex items-center gap-2 whitespace-nowrap text-[13px] font-semibold">
-                    <img src={hovered.flag} alt="" className="h-3.5 w-5 rounded-[3px] object-cover" />
-                    {hovered.title.replace('eSIM ', '')}
-                  </div>
-                  <div className="num whitespace-nowrap text-[12px] text-pulse">от {rub(minPrice(hovered))} · {hovered.variants.length} пакета</div>
-                </div>
-              )
-            })()}
-          </div>
-          <p className="mt-2 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-            наведите на точку · клик — к пакетам страны
-          </p>
-        </div>
+        <EsimMap all={all} />
       </Reveal>
 
       {/* поиск и сетка стран */}
@@ -100,12 +115,10 @@ export default function EsimCatalog() {
         </div>
       </div>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 grid-cols-1">
+      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {list.map((p, i) => (
           <Reveal key={p.id} delay={(i % 3) * 50}>
-            <Link to={`/p/${p.id}`}
-              className="panel panel-hover group flex items-center gap-4 p-4"
-              onMouseEnter={() => p.mapKey && setHover(p.mapKey)} onMouseLeave={() => setHover(null)}>
+            <Link to={`/p/${p.id}`} className="panel panel-hover group flex items-center gap-4 p-4">
               <img src={p.flag} alt="" className="h-10 w-14 shrink-0 rounded-lg object-cover shadow-soft" />
               <div className="min-w-0 flex-1">
                 <div className="truncate text-[15px] font-semibold">{p.title.replace('eSIM ', '')}</div>
