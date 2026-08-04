@@ -7,10 +7,9 @@ import {
 import { CATEGORIES, PRODUCTS, minPrice, productsByCat } from '../data/products'
 import { rub } from '../lib/format'
 import { useBuy } from '../lib/useBuy'
-import LiveFeed from '../components/LiveFeed'
+import HeroDemo from '../components/HeroDemo'
 import ProductCard from '../components/ProductCard'
 import WowMap from '../components/WowMap'
-import BankCard from '../components/BankCard'
 import { asset } from '../lib/asset'
 import { CatIcon, CountUp, Reveal, SectionHead } from '../components/ui'
 
@@ -79,17 +78,12 @@ function Hero() {
           </div>
         </div>
 
-        {/* сцена: живой фид + реальные объекты продукта вокруг */}
+        {/* сцена: живое демо покупки + реальные объекты продукта */}
         <Reveal delay={150}>
           <div className="relative lg:mx-2">
-            {/* карта Unicard выглядывает из-за терминала */}
-            <div className="pointer-events-none absolute -right-4 -top-14 z-0 w-60 rotate-[8deg] max-lg:hidden"
-              style={{ animation: 'float-y 7s ease-in-out infinite' }}>
-              <BankCard tilt={false} />
-            </div>
-            <LiveFeed className="relative z-10" />
+            <HeroDemo />
             {/* обложка игры */}
-            <div className="absolute -bottom-9 -left-7 z-20 w-44 -rotate-6 overflow-hidden rounded-xl shadow-lift ring-4 ring-white max-lg:hidden"
+            <div className="absolute -bottom-9 -left-7 z-20 w-40 -rotate-6 overflow-hidden rounded-xl shadow-lift ring-4 ring-white max-lg:hidden"
               style={{ animation: 'float-y 8s ease-in-out infinite', animationDelay: '1.2s' }}>
               <img src={asset('/img/games/eldenring.jpg')} alt="ELDEN RING" className="block w-full" />
               <span className="absolute bottom-1.5 left-2 rounded-full bg-ink/75 px-2 py-0.5 font-mono text-[10px] font-medium text-white backdrop-blur">
@@ -97,15 +91,15 @@ function Hero() {
               </span>
             </div>
             {/* eSIM-чип */}
-            <div className="absolute -left-6 -top-9 z-20 flex -rotate-3 items-center gap-2 rounded-full bg-surface py-2 pl-2.5 pr-4 shadow-lift max-lg:hidden"
+            <div className="absolute -right-5 -top-5 z-20 flex rotate-2 items-center gap-2 rounded-full bg-surface py-2 pl-2.5 pr-4 shadow-lift max-lg:hidden"
               style={{ animation: 'float-y 6s ease-in-out infinite', animationDelay: '0.5s' }}>
               <img src={asset('/img/flags/tr.svg')} alt="" className="h-5 w-7 rounded object-cover" />
               <span className="text-[12.5px] font-semibold leading-tight">eSIM Турция<br />
                 <span className="font-mono text-[10.5px] font-medium text-ok">QR за минуту · от 399 ₽</span>
               </span>
             </div>
-            <p className="mt-4 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-muted lg:pl-40">
-              реальное время выдачи по категориям
+            <p className="mt-4 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-muted lg:pl-44">
+              так проходит каждая покупка
             </p>
           </div>
         </Reveal>
