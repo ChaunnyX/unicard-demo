@@ -18,8 +18,17 @@ import { CatIcon, CountUp, Reveal, SectionHead } from '../components/ui'
 function Hero() {
   return (
     <section className="relative overflow-hidden">
-      {/* живой фон: мягкие вольт-пятна */}
+      {/* живой фон: тонкая сетка + мягкие вольт-пятна */}
       <div className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'linear-gradient(#dfe4f2 1px, transparent 1px), linear-gradient(90deg, #dfe4f2 1px, transparent 1px)',
+            backgroundSize: '42px 42px',
+            maskImage: 'radial-gradient(ellipse 85% 80% at 50% 0%, black, transparent 75%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 85% 80% at 50% 0%, black, transparent 75%)',
+          }}
+        />
         <div className="absolute -top-32 right-[-10%] h-[420px] w-[560px] rounded-full opacity-60 blur-3xl"
           style={{ background: 'radial-gradient(closest-side, rgba(46,91,255,0.16), transparent)' }} />
         <div className="absolute -left-24 top-40 h-[360px] w-[420px] rounded-full opacity-60 blur-3xl"
@@ -37,12 +46,24 @@ function Hero() {
             <br />
             <span className="grad-text">выдача за 2 секунды</span>
           </h1>
-          <p className="mt-5 max-w-md text-[16px] leading-relaxed text-muted md:text-[17px]">
-            Платите с единого баланса — без корзин и повторного ввода карты. Товар
-            покупается у поставщика в момент заказа, а если тот не ответил —
-            деньги сами вернутся на баланс.
-          </p>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          {/* офферы с ценами — как в магазине, а не лендинге */}
+          <div className="mt-6 max-w-md space-y-1">
+            {[
+              { to: '/c/games', icon: 'games' as const, tint: 'bg-hot/10 text-hot', text: <>Ключи Steam со скидками <b className="num">до −80%</b></> },
+              { to: '/c/esim', icon: 'esim' as const, tint: 'bg-volt-tint text-volt', text: <>eSIM в 200+ странах — <b className="num">от 169 ₽</b></> },
+              { to: '/c/vpn', icon: 'vpn' as const, tint: 'bg-ok-tint text-ok', text: <>VPN со своих серверов — <b className="num">от 199 ₽/мес</b></> },
+            ].map(o => (
+              <Link key={o.to} to={o.to}
+                className="group flex items-center gap-3 rounded-xl px-2 py-2 text-[15px] text-ink transition-colors hover:bg-surface md:text-[16px]">
+                <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${o.tint}`}>
+                  <CatIcon cat={o.icon} className="h-4 w-4" />
+                </span>
+                <span>{o.text}</span>
+                <ChevronRight className="h-4 w-4 shrink-0 text-muted transition-transform group-hover:translate-x-1 group-hover:text-volt" />
+              </Link>
+            ))}
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <Link to="/c/gift" className="btn-primary px-7 py-3.5 text-[15px]">
               В каталог <ArrowRight className="h-4 w-4" />
             </Link>
