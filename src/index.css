@@ -1,0 +1,218 @@
+@import '@fontsource/tektur/500.css';
+@import '@fontsource/tektur/600.css';
+@import '@fontsource/tektur/700.css';
+@import '@fontsource-variable/onest';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
+@import '@fontsource/jetbrains-mono/700.css';
+@import 'tailwindcss';
+
+@theme {
+  /* Палитра «вольт» — светлый финтех, энергия мгновенной выдачи */
+  --color-paper: #f5f6fa;
+  --color-surface: #ffffff;
+  --color-ink: #0e1220;
+  --color-muted: #5b6474;
+  --color-line: #e4e7f0;
+  --color-volt: #2e5bff;
+  --color-volt-deep: #1e44e0;
+  --color-volt-tint: #eef2ff;
+  --color-pulse: #00c6ff;
+  --color-hot: #ff5c38;
+  --color-ok: #0fb871;
+  --color-ok-tint: #e7f9f1;
+  --color-night: #0b1020;
+  --color-night-2: #131a30;
+
+  --font-display: 'Tektur', 'Onest Variable', system-ui, sans-serif;
+  --font-sans: 'Onest Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --shadow-soft: 0 8px 30px rgba(20, 40, 120, 0.08);
+  --shadow-lift: 0 16px 44px rgba(20, 40, 120, 0.14);
+  --shadow-volt: 0 10px 30px rgba(46, 91, 255, 0.35);
+
+  --radius-xl2: 1.25rem;
+  --radius-xl3: 1.75rem;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-paper text-ink font-sans antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(46, 91, 255, 0.18);
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+@layer components {
+  /* ---------- бренд-градиент ---------- */
+  .grad-volt {
+    background-image: linear-gradient(120deg, #2e5bff 0%, #0090ff 55%, #00c6ff 100%);
+  }
+  .grad-text {
+    background-image: linear-gradient(110deg, #2e5bff 10%, #00a5ff 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .grad-night {
+    background-image:
+      radial-gradient(1200px 500px at 80% -10%, rgba(46, 91, 255, 0.35), transparent 60%),
+      radial-gradient(800px 400px at 10% 110%, rgba(0, 198, 255, 0.18), transparent 60%),
+      linear-gradient(180deg, #0b1020, #0d1428);
+  }
+
+  /* ---------- капс-лейблы ---------- */
+  .eyebrow {
+    @apply font-mono text-[11px] font-medium uppercase text-muted;
+    letter-spacing: 0.14em;
+  }
+
+  /* ---------- карточки/поверхности ---------- */
+  .panel {
+    @apply bg-surface rounded-2xl border border-line;
+    box-shadow: var(--shadow-soft);
+  }
+  .panel-hover {
+    transition: transform 200ms cubic-bezier(0.2, 0, 0, 1), box-shadow 200ms cubic-bezier(0.2, 0, 0, 1), border-color 200ms;
+  }
+  .panel-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+    border-color: #d3daf0;
+  }
+
+  /* ---------- кнопки ---------- */
+  .btn,
+  .btn-primary,
+  .btn-dark,
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold cursor-pointer select-none whitespace-nowrap;
+    transition: background-color 140ms ease-out, color 140ms, transform 100ms, box-shadow 140ms, border-color 140ms, filter 140ms;
+  }
+  .btn:active, .btn-primary:active, .btn-dark:active, .btn-ghost:active { transform: scale(0.97); }
+  .btn-primary {
+    color: #fff;
+    background-image: linear-gradient(120deg, #2e5bff, #0090ff);
+    box-shadow: 0 6px 20px rgba(46, 91, 255, 0.35);
+  }
+  .btn-primary:hover { box-shadow: 0 8px 26px rgba(46, 91, 255, 0.45); filter: brightness(1.06); }
+  .btn-dark { background: var(--color-ink); color: #fff; }
+  .btn-dark:hover { background: #1c2336; }
+  .btn-ghost { border: 1px solid var(--color-line); background: var(--color-surface); color: var(--color-ink); }
+  .btn-ghost:hover { border-color: #c6cfe8; background: #fafbff; }
+
+  /* ---------- поле поиска ---------- */
+  .input {
+    @apply w-full rounded-xl border border-line bg-surface px-4 py-3 text-[15px] outline-none;
+    transition: border-color 140ms, box-shadow 140ms;
+  }
+  .input:focus {
+    border-color: var(--color-volt);
+    box-shadow: 0 0 0 3px rgba(46, 91, 255, 0.15);
+  }
+
+  /* ---------- цифры ---------- */
+  .num { font-variant-numeric: tabular-nums; }
+
+
+}
+
+/* ---------- анимации ---------- */
+@keyframes feed-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+@keyframes ping-dot {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes dash-flow {
+  to { stroke-dashoffset: -24; }
+}
+@keyframes shine {
+  from { transform: translateX(-120%) skewX(-18deg); }
+  to { transform: translateX(240%) skewX(-18deg); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes deal-in {
+  from { opacity: 0; transform: translateY(34px) rotate(var(--deal-rot, -4deg)) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+}
+@keyframes stamp-in {
+  0% { opacity: 0; transform: scale(1.6) rotate(-8deg); }
+  60% { opacity: 1; transform: scale(0.94) rotate(-8deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-8deg); }
+}
+@keyframes progress-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* scroll-reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.22, 0.7, 0.3, 1), transform 0.7s cubic-bezier(0.22, 0.7, 0.3, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+/* тонкий скроллбар для горизонтальных лент */
+.scroll-x {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cdd4e8 transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; }
+}
