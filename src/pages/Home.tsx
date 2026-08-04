@@ -10,7 +10,6 @@ import { useBuy } from '../lib/useBuy'
 import HeroDemo from '../components/HeroDemo'
 import ProductCard from '../components/ProductCard'
 import WowMap from '../components/WowMap'
-import { asset } from '../lib/asset'
 import { CatIcon, CountUp, Reveal, SectionHead } from '../components/ui'
 
 /* ================= HERO ================= */
@@ -78,27 +77,14 @@ function Hero() {
           </div>
         </div>
 
-        {/* сцена: живое демо покупки + реальные объекты продукта */}
+        {/* сцена: живое демо покупки */}
         <Reveal delay={150}>
           <div className="relative lg:mx-2">
+            {/* мягкое свечение за терминалом */}
+            <div className="pointer-events-none absolute -inset-8 -z-10 opacity-70 blur-3xl"
+              style={{ background: 'radial-gradient(closest-side, rgba(46,91,255,0.28), rgba(0,198,255,0.12) 60%, transparent)' }} />
             <HeroDemo />
-            {/* обложка игры */}
-            <div className="absolute -bottom-9 -left-7 z-20 w-40 -rotate-6 overflow-hidden rounded-xl shadow-lift ring-4 ring-white max-lg:hidden"
-              style={{ animation: 'float-y 8s ease-in-out infinite', animationDelay: '1.2s' }}>
-              <img src={asset('/img/games/eldenring.jpg')} alt="ELDEN RING" className="block w-full" />
-              <span className="absolute bottom-1.5 left-2 rounded-full bg-ink/75 px-2 py-0.5 font-mono text-[10px] font-medium text-white backdrop-blur">
-                ключ · 3 299 ₽
-              </span>
-            </div>
-            {/* eSIM-чип */}
-            <div className="absolute -right-5 -top-5 z-20 flex rotate-2 items-center gap-2 rounded-full bg-surface py-2 pl-2.5 pr-4 shadow-lift max-lg:hidden"
-              style={{ animation: 'float-y 6s ease-in-out infinite', animationDelay: '0.5s' }}>
-              <img src={asset('/img/flags/tr.svg')} alt="" className="h-5 w-7 rounded object-cover" />
-              <span className="text-[12.5px] font-semibold leading-tight">eSIM Турция<br />
-                <span className="font-mono text-[10.5px] font-medium text-ok">QR за минуту · от 399 ₽</span>
-              </span>
-            </div>
-            <p className="mt-4 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-muted lg:pl-44">
+            <p className="mt-4 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
               так проходит каждая покупка
             </p>
           </div>
@@ -290,8 +276,8 @@ function Hits() {
 const STEPS = [
   { icon: Wallet, t: 'Пополняете баланс', d: 'Карта, СБП или крипта — от 300 ₽. Деньги зачисляются мгновенно.', ts: 'T+0 сек' },
   { icon: MousePointerClick, t: 'Выбираете товар', d: 'Цена уже с комиссией. Никаких корзин — кнопка «Купить» списывает с баланса.', ts: 'T+0,5 сек' },
-  { icon: RefreshCcw, t: 'Мы покупаем у поставщика', d: 'Бэкенд сам берёт товар по API. Основной не ответил — заказ уходит резервному.', ts: 'T+1,2 сек' },
-  { icon: PackageCheck, t: 'Код у вас', d: 'В кабинете, на почте и в Telegram. Сбой у всех поставщиков — деньги вернутся на баланс сами.', ts: 'T+1,8 сек' },
+  { icon: RefreshCcw, t: 'Заказ собирается сам', d: 'Без продавцов и переписок. Любая задержка — срабатывает резервный канал выдачи.', ts: 'T+1,2 сек' },
+  { icon: PackageCheck, t: 'Код у вас', d: 'В кабинете, на почте и в Telegram. Если что-то пошло не так — деньги вернутся на баланс сами.', ts: 'T+1,8 сек' },
 ]
 
 function HowItWorks() {
@@ -454,8 +440,8 @@ function Reviews() {
 
 /* ================= FAQ ================= */
 const FAQ = [
-  { q: 'Что будет, если код не сработает?', a: 'Каждое направление подключено минимум к двум поставщикам. Если основной выдал нерабочий код или не ответил — заказ автоматически уходит резервному. При полном сбое деньги мгновенно возвращаются на баланс, без переписки с поддержкой.' },
-  { q: 'Почему дешевле, чем в официальном магазине?', a: 'Мы покупаем оптом по API у проверенных поставщиков в момент вашего заказа. Склада и заморозки денег нет, поэтому наценка минимальная — вы видите её сразу в цене.' },
+  { q: 'Что будет, если код не сработает?', a: 'У каждого товара есть резервный канал выдачи: если код не сработал, замена придёт автоматически. При полном сбое деньги мгновенно возвращаются на баланс — без переписки с поддержкой.' },
+  { q: 'Почему дешевле, чем в официальном магазине?', a: 'Работаем напрямую с дистрибьюторами и без склада — не замораживаем деньги в товаре, поэтому наценка минимальная. Итоговая цена всегда видна сразу, без комиссий на последнем шаге.' },
   { q: 'Зачем нужен баланс, можно платить сразу картой?', a: 'Баланс — это скорость: покупка списывается мгновенно, без 3-DS и форм оплаты. Пополняется от 300 ₽ картой, СБП или криптой. Всё, что на балансе, тратится на любые товары сервиса.' },
   { q: 'Можно ли вернуть деньги с баланса на карту?', a: 'Нет — средства тратятся внутри сервиса, так работает большинство площадок цифровых товаров. Зато отменённые заказы возвращаются на баланс мгновенно и без комиссии.' },
   { q: 'VPN правда работает при «белых списках»?', a: 'Да. Инфраструктура своя: вход через российский сервер, который проходит фильтры операторов, выход — в Европе. Замер на мобильной сети — 185 Мбит/с. Если адрес попадёт под фильтр, система заменит его автоматически, вы этого не заметите.' },

@@ -18,7 +18,7 @@ function Ticker() {
       Промокод WELCOME10 — скидка 10% на первый заказ
     </button>,
     <span key="a" className="mx-6 font-mono text-[11px] uppercase tracking-[0.14em] text-white/80">Выдача за секунды после оплаты</span>,
-    <span key="b" className="mx-6 font-mono text-[11px] uppercase tracking-[0.14em] text-white/80">Если поставщик не ответил — деньги вернутся на баланс сами</span>,
+    <span key="b" className="mx-6 font-mono text-[11px] uppercase tracking-[0.14em] text-white/80">Не выдали за минуту — деньги вернутся на баланс сами</span>,
     <span key="c" className="mx-6 font-mono text-[11px] uppercase tracking-[0.14em] text-white/80">Оплата: карты · СБП · криптовалюта</span>,
   ]
   return <Marquee items={items} className="grad-volt py-1.5" />

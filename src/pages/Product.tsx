@@ -218,8 +218,8 @@ export default function ProductPage() {
             <div className="mt-5 space-y-2.5 border-t border-line pt-4">
               {[
                 { icon: Zap, text: cat.auto[0].toUpperCase() + cat.auto.slice(1) + ' — код в кабинете и на почте' },
-                { icon: RefreshCcw, text: 'Поставщик не ответил — заказ уйдёт резервному' },
-                { icon: ShieldCheck, text: 'Полный сбой — деньги вернутся на баланс сами' },
+                { icon: RefreshCcw, text: 'Задержка выдачи — сработает резервный канал' },
+                { icon: ShieldCheck, text: 'Любой сбой — деньги вернутся на баланс сами' },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-start gap-2.5 text-[12.5px] leading-snug text-muted">
                   <Icon className="mt-0.5 h-4 w-4 shrink-0 text-volt" /> {text}

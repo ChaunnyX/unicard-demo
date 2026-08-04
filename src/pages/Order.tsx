@@ -30,7 +30,7 @@ type Stage = 0 | 1 | 2 | 3 // 0=оплата 1=закупка 2=печать к�
 
 const STAGES = [
   { icon: Wallet, label: 'Оплата с баланса' },
-  { icon: Truck, label: 'Закупка у поставщика' },
+  { icon: Truck, label: 'Обработка заказа' },
   { icon: PackageCheck, label: 'Выдача' },
 ]
 
@@ -144,7 +144,7 @@ export default function OrderPage() {
           <div className="mt-3 min-h-[56px] break-all rounded-xl bg-black/30 p-4 text-[16px] leading-relaxed md:text-[19px]">
             {stage < 2 && (
               <span className="font-mono text-white/35">
-                {stage === 0 ? '· · · списываем с баланса' : '· · · запрашиваем у поставщика'}
+                {stage === 0 ? '· · · списываем с баланса' : '· · · обрабатываем заказ'}
                 <span className="inline-block w-[0.6ch]" style={{ animation: 'blink 0.7s step-end infinite' }}>▌</span>
               </span>
             )}

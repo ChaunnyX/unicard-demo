@@ -42,7 +42,7 @@ function Type({ text, onDone }: { text: string; onDone: () => void }) {
   )
 }
 
-const STEPS = ['Оплата с баланса', 'Закупка у поставщика', 'Выдача']
+const STEPS = ['Оплата с баланса', 'Обработка заказа', 'Выдача']
 
 export default function HeroDemo() {
   const [idx, setIdx] = useState(0)
@@ -145,7 +145,7 @@ export default function HeroDemo() {
               )}
               {phase === 'pipeline' && (
                 <span className="font-mono text-white/35">
-                  запрашиваем у поставщика<span className="inline-block w-[0.6ch]" style={{ animation: 'blink 0.7s step-end infinite' }}>▌</span>
+                  формируем выдачу<span className="inline-block w-[0.6ch]" style={{ animation: 'blink 0.7s step-end infinite' }}>▌</span>
                 </span>
               )}
               {phase === 'typing' && <Type text={item.code} onDone={() => setPhase('done')} />}
